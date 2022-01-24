@@ -1,38 +1,81 @@
-.App {
-  text-align: center;
+@import url("https://fonts.googleapis.com/css2?family=Raleway&display=swap");
+
+.dark {
+  background-color: #222831;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.light {
+  background-color: #eeeeee;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.dark-2 {
+  background-color: #393e46;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+.light-text {
+  color: #eeeeee;
+  text-decoration: none;
+}
+
+.dark-text {
+  color: #222831;
+  text-decoration: none;
+}
+
+.light-bg {
+  background-color: #eeeeee;
+}
+
+.light-font {
+  font-family: "Raleway", sans-serif;
+}
+
+.title {
+  font-weight: bold;
+  font-family: "Raleway", sans-serif;
+}
+
+.no-dec {
+  text-decoration: none;
+  color: #222831;
+}
+
+.icon {
+  font-size: 25vw;
+}
+
+.no-border {
+  border: none;
+}
+
+.white {
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.red {
+  color: #dc3545;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.blue {
+  color: #0d6efd;
+}
+
+.reg {
+  color: #eeeeee;
+}
+
+.reg:hover {
+  background-color: #394352;
+}
+
+.reg:active {
+  background-color: #222831;
+}
+
+.item {
+  background-color: #eeeeee;
+}
+
+.item:hover {
+  background-color: #dddddd;
 }
