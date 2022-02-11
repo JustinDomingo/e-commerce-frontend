@@ -9,7 +9,7 @@ export default function Tops() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:3001/api/tops")
+      .get("https://myecommerceapp-api.herokuapp.com/api/tops")
       .then((res) => {
         console.log(res.data)
         setTops(res.data)
@@ -30,7 +30,7 @@ export default function Tops() {
             tops.map((shirt) => {
               return (
                 <Link key={shirt._id} to={`/shirts/${shirt._id}`} className="col-3 no-dec display-1 m-3 item text-center">
-                  {shirt.iconCode == 1 ? <FontAwesomeIcon icon={faTshirt} className="text-white"></FontAwesomeIcon> : shirt.iconCode == 2 ? <FontAwesomeIcon icon={faTshirt} className="text-danger"></FontAwesomeIcon> : <div>Blue</div>}
+                  {shirt.iconCode === 1 ? <FontAwesomeIcon icon={faTshirt} className="text-white"></FontAwesomeIcon> : shirt.iconCode === 2 ? <FontAwesomeIcon icon={faTshirt} className="text-danger"></FontAwesomeIcon> : <div>Blue</div>}
                 </Link>
               )
             })}

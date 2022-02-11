@@ -8,7 +8,7 @@ export default function Login() {
   const [password, setPassword] = useState("")
   const [areErrors, setAreErrors] = useState(false)
   const [error, setError] = useState(false)
-  const { loggedIn, setLoggedIn } = useContext(LoginContext)
+  const { loggedIn, setLoggedIn, setUserData } = useContext(LoginContext)
   const history = useHistory()
 
   useEffect(() => {
@@ -24,9 +24,10 @@ export default function Login() {
       password,
     }
     axios
-      .post("http://localhost:3001/api/login", data, { withCredentials: true }) //always set "withCredentials to true when handling cookies"
+      .post("https://myecommerceapp-api.herokuapp.com/api/login", data, { withCredentials: true }) //always set "withCredentials to true when handling cookies"
       .then((res) => {
         localStorage.setItem("user", JSON.stringify(res.data)) //sets user document in localStorage NOT the jwt
+        setUserData(res.data)
         setLoggedIn(true)
         history.push("/")
       })

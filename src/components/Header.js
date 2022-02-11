@@ -2,21 +2,25 @@ import "bootstrap/dist/css/bootstrap.min.css"
 import { Link } from "react-router-dom"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faShoppingCart } from "@fortawesome/free-solid-svg-icons"
-import { useContext, useEffect, useState } from "react"
+import { useContext } from "react"
+import { useHistory } from "react-router-dom"
 import LoginContext from "../LoginContext"
 import axios from "axios"
 
 export default function Header() {
-  const { loggedIn, setLoggedIn, userData } = useContext(LoginContext)
+  const { loggedIn, setLoggedIn, userData, setUserData } = useContext(LoginContext)
+  const history = useHistory()
 
   const handleLogout = async () => {
     try {
-      await axios.delete(`http://localhost:3001/api/logout`, { withCredentials: true })
+      await axios.delete(`https://myecommerceapp-api.herokuapp.com/api/logout`, { withCredentials: true })
     } catch (err) {
       console.log(err)
     }
     localStorage.removeItem("user")
+    setUserData(null)
     setLoggedIn(false)
+    history.push("/")
   }
 
   return (
@@ -43,9 +47,9 @@ export default function Header() {
                   <FontAwesomeIcon icon={faShoppingCart}></FontAwesomeIcon>
                 </Link>
                 {loggedIn ? (
-                  <a onClick={handleLogout} className={`col light-font light-text`}>
+                  <div onClick={handleLogout} className={`col light-font light-text`}>
                     Logout
-                  </a>
+                  </div>
                 ) : (
                   <Link to="/register" className={`col light-font light-text`}>
                     Login

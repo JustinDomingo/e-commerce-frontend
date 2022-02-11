@@ -1,4 +1,4 @@
-import { useState, useContext, useEffect, useRef } from "react"
+import { useState, useContext, useEffect } from "react"
 import axios from "axios"
 import { useHistory } from "react-router-dom"
 import LoginContext from "../LoginContext"
@@ -10,7 +10,6 @@ export default function Cart() {
   const { loggedIn } = useContext(LoginContext)
   const history = useHistory()
   const [total, setTotal] = useState()
-  const firstRender = useRef(true)
 
   useEffect(() => {
     if (!loggedIn) {
@@ -19,7 +18,7 @@ export default function Cart() {
     }
     const item = JSON.parse(localStorage.getItem("user"))
     axios
-      .get(`http://localhost:3001/api/cart/${item._id}`)
+      .get(`https://myecommerceapp-api.herokuapp.com/api/cart/${item._id}`)
       .then((res) => {
         // CLEAN THIS UP LATER ON, SEEMS REPETITIVE
         setUserCart(res.data)
@@ -37,19 +36,19 @@ export default function Cart() {
         setTotal(subTotal)
 
         arr.forEach((item) => {
-          if (item.iconCode == 1) {
+          if (item.iconCode === 1) {
             whiteShirts.push(item)
           }
-          if (item.iconCode == 2) {
+          if (item.iconCode === 2) {
             redShirts.push(item)
           }
-          if (item.iconCode == 3) {
+          if (item.iconCode === 3) {
             jeans.push(item)
           }
         })
 
         arr.every((_item) => {
-          if (_item.name == "White T-Shirt") {
+          if (_item.name === "White T-Shirt") {
             first.push(_item)
             return false
           } else {
@@ -58,7 +57,7 @@ export default function Cart() {
         })
 
         arr.every((_item) => {
-          if (_item.name == "Red T-Shirt") {
+          if (_item.name === "Red T-Shirt") {
             first.push(_item)
             return false
           } else {
@@ -67,7 +66,7 @@ export default function Cart() {
         })
 
         arr.every((_item) => {
-          if (_item.name == "Jeans") {
+          if (_item.name === "Jeans") {
             first.push(_item)
             return false
           } else {
@@ -87,21 +86,11 @@ export default function Cart() {
       .catch((err) => {
         console.log(err)
       })
-  }, [])
+  }, [history, loggedIn])
 
-  useEffect(() => {
-    if (firstRender.current) {
-      firstRender.current = false
-      return
-    }
-
-    let subTotal = 0
-    cart.forEach((obj) => {
-      subTotal += obj.item.price * obj.quantity
-    })
-
-    setTotal(subTotal)
-  }, [cart])
+  const handleCheckout = () => {
+    history.push("/checkout")
+  }
 
   return (
     <div>
@@ -110,14 +99,15 @@ export default function Cart() {
         <hr></hr>
         {cart &&
           cart.map((doc) => {
-            return <CartItem key={doc.item._id} item={doc.item} cart={cart} setCart={setCart} userCart={userCart} />
+            return <CartItem key={doc.item._id} item={doc.item} cart={cart} setCart={setCart} userCart={userCart} setTotal={setTotal} />
           })}
         <div className="row">
-          <div className="title display-6 my-4 mx-2 col">Subtotal</div>
+          <div className="title display-6 my-4 mx-2 col">Subtotal:</div>
           <h1 className="title my-4 col">${total && total}</h1>
         </div>
-
-        <button className="w-100 my-2 display-6 rounded">Proceed To Checkout</button>
+        <button onClick={handleCheckout} className="w-100 my-2 dark-text display-6 border-light">
+          Proceed To Checkout
+        </button>
       </div>
     </div>
   )

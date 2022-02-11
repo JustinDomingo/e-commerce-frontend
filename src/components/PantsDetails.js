@@ -10,7 +10,7 @@ export default function PantsDetails() {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:3001/api/pants`, { withCredentials: true })
+      .get(`https://myecommerceapp-api.herokuapp.com/api/pants`, { withCredentials: true })
       .then((res) => {
         setData(res.data)
       })
@@ -24,8 +24,9 @@ export default function PantsDetails() {
       history.push("/register")
       return
     }
+    console.log(userData)
     const randomNum = Math.floor(Math.random() * data.length)
-    axios.post("http://localhost:3001/api/add-item", { data: data[randomNum], user: userData }, { withCredentials: true }).then((res) => {
+    axios.post("https://myecommerceapp-api.herokuapp.com/api/add-item", { data: data[randomNum], user: userData }, { withCredentials: true }).then((res) => {
       console.log(res.data)
     })
   }
@@ -34,7 +35,7 @@ export default function PantsDetails() {
     <div>
       <div className="container text-center my-5">
         <div className="row text-center">
-          <img className="w-50 h-50 light" src="https://img.icons8.com/external-photo3ideastudio-flat-photo3ideastudio/64/000000/external-pants-clothes-photo3ideastudio-flat-photo3ideastudio.png" />
+          <img alt="pants" className="w-50 h-50 light" src="https://img.icons8.com/external-photo3ideastudio-flat-photo3ideastudio/64/000000/external-pants-clothes-photo3ideastudio-flat-photo3ideastudio.png" />
           <div className="display-4 light-text col">
             {data && data[0].name}
             <div className="container row light-text">

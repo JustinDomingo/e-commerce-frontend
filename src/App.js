@@ -1,7 +1,7 @@
 import "./App.css"
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom"
-import { useState, useEffect } from "react"
-import axios from "axios"
+import { useState } from "react"
+import Checkout from "./components/Checkout"
 import LoginContext from "./LoginContext"
 import Header from "./components/Header"
 import Homepage from "./components/Homepage"
@@ -12,18 +12,16 @@ import Cart from "./components/Cart"
 import Login from "./components/Login"
 import Tops from "./components/Tops"
 import Bottoms from "./components/Bottoms"
+import ThankYou from "./components/ThankYou"
 
 function App() {
-  useEffect(() => {
-    axios.post("http://localhost:3001/api/items")
-  })
-
   const [loggedIn, setLoggedIn] = useState(Boolean(localStorage.getItem("user")))
+  const [complete, setComplete] = useState(false)
   const [userData, setUserData] = useState(JSON.parse(localStorage.getItem("user")))
 
   return (
     <div>
-      <LoginContext.Provider value={{ loggedIn, setLoggedIn, userData, setUserData }}>
+      <LoginContext.Provider value={{ loggedIn, setLoggedIn, userData, setUserData, complete, setComplete }}>
         <Router>
           <Header />
           <Switch>
@@ -50,6 +48,12 @@ function App() {
             </Route>
             <Route path="/cart">
               <Cart />
+            </Route>
+            <Route path="/checkout">
+              <Checkout />
+            </Route>
+            <Route path="/thank-you">
+              <ThankYou />
             </Route>
           </Switch>
         </Router>

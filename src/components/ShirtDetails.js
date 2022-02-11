@@ -21,15 +21,15 @@ export default function ItemDetails() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:3001/api/shirts/")
+      .get("https://myecommerceapp-api.herokuapp.com/api/shirts/")
       .then((res) => {
         let arrOne = []
         let arrTwo = []
         res.data.forEach((item) => {
-          if (item.name == "Red T-Shirt") {
+          if (item.name === "Red T-Shirt") {
             arrOne.push(item) //puts all red shirts in arrOne
           }
-          if (item.name == "White T-Shirt") {
+          if (item.name === "White T-Shirt") {
             arrTwo.push(item) //puts all white shirts in arrOne
           }
         })
@@ -49,31 +49,29 @@ export default function ItemDetails() {
       return
     }
     axios
-      .get(`http://localhost:3001/api/shirts/${id}`) //gets single shirt
+      .get(`https://myecommerceapp-api.herokuapp.com/api/shirts/${id}`) //gets single shirt
       .then((res) => {
         setName(res.data.name)
-        if (res.data.iconCode == 1) {
+        if (res.data.iconCode === 1) {
           setColor("white")
         }
-        if (res.data.iconCode == 2) {
+        if (res.data.iconCode === 2) {
           setColor("red")
         }
-        if (res.data.iconCode == 3) {
+        if (res.data.iconCode === 3) {
           setColor("blue")
         }
-        if (res.data.name == "Red T-Shirt") {
-          const randomNum = Math.floor(Math.random() * red.length)
-          setShirt(red[randomNum])
+        if (res.data.name === "Red T-Shirt") {
+          setShirt(red[0])
         }
-        if (res.data.name == "White T-Shirt") {
-          const randomNum = Math.floor(Math.random() * white.length)
-          setShirt(white[randomNum])
+        if (res.data.name === "White T-Shirt") {
+          setShirt(white[0])
         }
       })
       .catch((err) => {
         console.log(err)
       })
-  }, [data]) //listens for change in "data" state
+  }, [data, id, red, white]) //listens for change in "data" state
 
   const handleClick = () => {
     if (!loggedIn) {
@@ -81,7 +79,7 @@ export default function ItemDetails() {
       return
     }
     const userData = JSON.parse(localStorage.getItem("user")) //grabs current user data from localStorage
-    axios.post("http://localhost:3001/api/add-item", { data: shirt, user: userData }).then((res) => {
+    axios.post("https://myecommerceapp-api.herokuapp.com/api/add-item", { data: shirt, user: userData }).then((res) => {
       console.log(res.data)
     })
   }
@@ -105,8 +103,8 @@ export default function ItemDetails() {
                 Add to cart
               </button>
             </div>
-            {red && color == "red" ? <div className={`display-6 mx-3 text-start ${red.length <= 10 ? `text-danger` : `text-light`}`}>{red.length} left in stock</div> : console.log()}
-            {red && color == "white" ? <div className={`display-6 mx-3 text-start ${white.length <= 10 ? `text-danger` : `text-light`}`}>{white.length} left in stock</div> : console.log()}
+            {red && color === "red" ? <div className={`display-6 mx-3 text-start ${red.length <= 10 ? `text-danger` : `text-light`}`}>{red.length} left in stock</div> : console.log()}
+            {red && color === "white" ? <div className={`display-6 mx-3 text-start ${white.length <= 10 ? `text-danger` : `text-light`}`}>{white.length} left in stock</div> : console.log()}
             <hr></hr>
             <div className="display-5 text-end">About</div>
             <p className="text-end display-6">A simple, good-quality t-shirt. How much simpler can it get?</p>

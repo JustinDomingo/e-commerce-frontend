@@ -10,7 +10,7 @@ export default function Register() {
   const [passwordErrors, setPasswordErrors] = useState(null)
   const [emailErrors, setEmailErrors] = useState(null)
   const [usernameErrors, setUsernameErrors] = useState(null)
-  const { loggedIn, setLoggedIn } = useContext(LoginContext)
+  const { loggedIn, setLoggedIn, setUserData } = useContext(LoginContext)
   const history = useHistory()
 
   useEffect(() => {
@@ -27,10 +27,11 @@ export default function Register() {
       password,
     }
     axios
-      .post("http://localhost:3001/api/register", data, { withCredentials: true }) //always set "withCredentials to true when handling cookies"
+      .post("https://myecommerceapp-api.herokuapp.com/api/register", data, { withCredentials: true }) //always set "withCredentials to true when handling cookies"
       .then((res) => {
         console.log(res.data)
         localStorage.setItem("user", JSON.stringify(res.data)) //sets user document in localStorage NOT the jwt
+        setUserData(res.data)
         setLoggedIn(true)
       })
       .catch((item) => {
