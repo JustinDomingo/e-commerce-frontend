@@ -10,7 +10,6 @@ export default function Checkout() {
   const { setComplete, userData } = useContext(LoginContext)
   const history = useHistory()
   const paypal = useRef()
-  const [user, setUser] = useState()
   const [subtotal, setSubtotal] = useState()
   const [cart, setCart] = useState()
   const [addOne, setAddOne] = useState("")
@@ -24,7 +23,6 @@ export default function Checkout() {
     axios
       .get(`https://myecommerceapp-api.herokuapp.com/api/user/${userData._id}`)
       .then((res) => {
-        setUser(res.data)
         console.log(JSON.stringify(res.data))
         if (res.data.address.length) {
           setAddress(res.data.address)
