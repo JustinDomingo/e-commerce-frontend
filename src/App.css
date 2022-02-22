@@ -81,7 +81,7 @@
 }
 
 .footer {
-  position: fixed;
+  position: absolute;
   background-color: #222831;
-  bottom: 0;
+  top: 100%;
 }
