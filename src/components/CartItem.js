@@ -16,7 +16,8 @@ export default function CartItem({ item, userCart, setTotal }) {
 
   const handleAdd = async () => {
     console.log(userData)
-    let res = await axios.post("https://myecommerceapp-api.herokuapp.com/api/add-quantity", { user: userData, item }, { withCredentials: true })
+    let size = item.size
+    let res = await axios.post("https://myecommerceapp-api.herokuapp.com/api/add-quantity", { user: userData, item, size }, { withCredentials: true })
     let cart = res.data
     let total = 0
     cart.forEach((item) => {

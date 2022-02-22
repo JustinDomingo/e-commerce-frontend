@@ -54,7 +54,7 @@ export default function Homepage() {
 
   useEffect(() => {
     axios
-      .get("http://localhost:3001/api/items")
+      .get("https://myecommerceapp-api.herokuapp.com/api/items")
       .then((res) => {
         console.log(res.data)
         setItems(res.data)

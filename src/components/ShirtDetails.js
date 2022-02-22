@@ -125,7 +125,7 @@ export default function ItemDetails() {
 
   const handleSize = async (size, color) => {
     try {
-      let res = await axios.get(`http://localhost:3001/api/shirts/sizes/${shirt.name}/${size}`)
+      let res = await axios.get(`https://myecommerceapp-api.herokuapp.com/api/shirts/sizes/${shirt.name}/${size}`)
       setStock(res.data)
       setSize(size)
     } catch (err) {
