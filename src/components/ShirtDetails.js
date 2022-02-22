@@ -10,11 +10,18 @@ import LoginContext from "../LoginContext"
 export default function ItemDetails() {
   const [data, setData] = useState("")
   const [shirt, setShirt] = useState("")
+  const [stock, setStock] = useState()
+  const [showError, setShowError] = useState(false)
+  const [message, setMessage] = useState(null)
+  const [flash, setFlash] = useState(null)
   const [red, setRed] = useState([]) //array of only red shirts
   const [white, setWhite] = useState([]) //array of only white shirts
   const [name, setName] = useState("")
   const [color, setColor] = useState("")
+  const [sizeSelected, setSizeSelected] = useState(false)
+  const [size, setSize] = useState()
   const firstRender = useRef(true)
+  const _firstRender = useRef(true)
   const { id } = useParams() //Params get saved as object properties
   const { loggedIn } = useContext(LoginContext)
   const history = useHistory()
@@ -73,15 +80,57 @@ export default function ItemDetails() {
       })
   }, [data, id, red, white]) //listens for change in "data" state
 
+  useEffect(() => {
+    if (_firstRender.current) {
+      _firstRender.current = false
+      return
+    }
+    setSizeSelected(true)
+    setShowError(false)
+  }, [stock])
+
   const handleClick = () => {
     if (!loggedIn) {
       history.push("/register") //redirects if user isn't logged in
       return
     }
-    const userData = JSON.parse(localStorage.getItem("user")) //grabs current user data from localStorage
-    axios.post("https://myecommerceapp-api.herokuapp.com/api/add-item", { data: shirt, user: userData }).then((res) => {
-      console.log(res.data)
-    })
+    if (sizeSelected) {
+      const userData = JSON.parse(localStorage.getItem("user")) //grabs current user data from localStorage
+      let obj
+      let specificShirts = data.filter((item) => {
+        return item.name === shirt.name
+      })
+      specificShirts.every((item) => {
+        if (item.size === size) {
+          obj = item
+          return true
+        } else {
+          return false
+        }
+      })
+      axios
+        .post("https://myecommerceapp-api.herokuapp.com/api/add-item", { data: obj, user: userData })
+        .then((res) => {
+          setMessage("Item successfully added")
+          setFlash("success")
+        })
+        .catch(() => {
+          setMessage("Item is already in your cart.")
+          setFlash("danger")
+        })
+    } else {
+      setShowError(true)
+    }
+  }
+
+  const handleSize = async (size, color) => {
+    try {
+      let res = await axios.get(`http://localhost:3001/api/shirts/sizes/${shirt.name}/${size}`)
+      setStock(res.data)
+      setSize(size)
+    } catch (err) {
+      console.log(err)
+    }
   }
 
   return (
@@ -92,19 +141,34 @@ export default function ItemDetails() {
           <div className="display-4 light-text col">
             {name && name}
             <div className="container row light-text">
-              <div className="display-6 col border rounded mx-1">S</div>
-              <div className="display-6 col border rounded mx-1">M</div>
-              <div className="display-6 col border rounded mx-1">L</div>
-              <div className="display-6 col border rounded mx-1">XL</div>
+              <button className="display-6 col border dark-2 text-white rounded mx-1" onClick={() => handleSize("small", color)}>
+                S
+              </button>
+              <button className="display-6 col border dark-2 text-white rounded mx-1" onClick={() => handleSize("medium", color)}>
+                M
+              </button>
+              <button className="display-6 col border dark-2 text-white rounded mx-1" onClick={() => handleSize("large", color)}>
+                L
+              </button>
+              <button className="display-6 col border dark-2 text-white rounded mx-1" onClick={() => handleSize("xl", color)}>
+                XL
+              </button>
             </div>
             <div className="container row light-text">
               <div className="text-start my-1">$10</div>
               <button className="no-border light light-font h1" onClick={handleClick}>
                 Add to cart
               </button>
+              {message && <div className={`text-${flash && flash} text-start display-6 p-1`}>{message && message}</div>}
+              {showError && <div className="text-danger text-start display-6 p-1">Please select a size.</div>}
             </div>
-            {red && color === "red" ? <div className={`display-6 mx-3 text-start ${red.length <= 10 ? `text-danger` : `text-light`}`}>{red.length} left in stock</div> : console.log()}
-            {red && color === "white" ? <div className={`display-6 mx-3 text-start ${white.length <= 10 ? `text-danger` : `text-light`}`}>{white.length} left in stock</div> : console.log()}
+            {sizeSelected && (
+              // you don't need "?" for ternary operators unless you need a second condition
+              <div>
+                {red && color === "red" && <div className={`display-6 mx-3 text-start ${red.length <= 5 ? `text-danger` : `text-light`}`}>{stock} left in stock</div>}
+                {red && color === "white" && <div className={`display-6 mx-3 text-start ${white.length <= 5 ? `text-danger` : `text-light`}`}>{stock} left in stock</div>}
+              </div>
+            )}
             <hr></hr>
             <div className="display-5 text-end">About</div>
             <p className="text-end display-6">A simple, good-quality t-shirt. How much simpler can it get?</p>

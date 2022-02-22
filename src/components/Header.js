@@ -25,7 +25,7 @@ export default function Header() {
 
   return (
     <div>
-      <div className="dark light-text">
+      <div className="dark light-text shadow-sm">
         <div className="container">
           <div className="row">
             <div className="col h2 container">

@@ -79,3 +79,9 @@
 .item:hover {
   background-color: #dddddd;
 }
+
+.footer {
+  position: fixed;
+  background-color: #222831;
+  bottom: 0;
+}

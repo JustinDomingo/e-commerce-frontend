@@ -12,6 +12,10 @@ export default function Homepage() {
   const { userData } = useContext(LoginContext)
 
   useEffect(() => {
+    console.log(firstPants)
+  }, [firstPants])
+
+  useEffect(() => {
     //Main purpose is to get only the first item of array with certain property value
     let arr = []
     let arrTwo = []
@@ -38,7 +42,7 @@ export default function Homepage() {
     setFirstShirt(arr)
 
     items.pants.every((item) => {
-      if (item.iconCode === 4) {
+      if (item.iconCode === 3) {
         arrTwo.push(item)
         return false
       } else {
@@ -50,8 +54,9 @@ export default function Homepage() {
 
   useEffect(() => {
     axios
-      .get("https://myecommerceapp-api.herokuapp.com/api/items")
+      .get("http://localhost:3001/api/items")
       .then((res) => {
+        console.log(res.data)
         setItems(res.data)
       })
       .catch((err) => {
@@ -82,7 +87,7 @@ export default function Homepage() {
             firstPants.map((pants) => {
               return (
                 <Link key={pants._id} to={`/pants/${pants._id}`} className="col-3 no-dec display-1 m-3 item shadow text-center">
-                  {pants.iconCode === 4 ? <img alt="pants" className="h-75" src="https://img.icons8.com/external-photo3ideastudio-flat-photo3ideastudio/64/000000/external-pants-clothes-photo3ideastudio-flat-photo3ideastudio.png" /> : console.log()}
+                  {pants.iconCode === 3 ? <img alt="pants" className="h-75" src="https://img.icons8.com/external-photo3ideastudio-flat-photo3ideastudio/64/000000/external-pants-clothes-photo3ideastudio-flat-photo3ideastudio.png" /> : console.log()}
                 </Link>
               )
             })}

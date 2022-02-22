@@ -13,6 +13,7 @@ import Login from "./components/Login"
 import Tops from "./components/Tops"
 import Bottoms from "./components/Bottoms"
 import ThankYou from "./components/ThankYou"
+import Footer from "./components/Footer"
 
 function App() {
   const [loggedIn, setLoggedIn] = useState(Boolean(localStorage.getItem("user")))
@@ -56,6 +57,7 @@ function App() {
               <ThankYou />
             </Route>
           </Switch>
+          <Footer />
         </Router>
       </LoginContext.Provider>
     </div>

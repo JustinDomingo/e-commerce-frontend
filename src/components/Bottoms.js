@@ -23,7 +23,7 @@ export default function Tops() {
             bottoms.map((pants) => {
               return (
                 <Link key={pants._id} to={`/pants/${pants._id}`} className="col-3 no-dec display-1 m-3 item shadow text-center">
-                  {pants.iconCode === 4 ? <img className="h-75" alt="pants" src="https://img.icons8.com/external-photo3ideastudio-flat-photo3ideastudio/64/000000/external-pants-clothes-photo3ideastudio-flat-photo3ideastudio.png" /> : console.log()}
+                  {pants.iconCode === 3 ? <img className="h-75" alt="pants" src="https://img.icons8.com/external-photo3ideastudio-flat-photo3ideastudio/64/000000/external-pants-clothes-photo3ideastudio-flat-photo3ideastudio.png" /> : console.log()}
                 </Link>
               )
             })}
