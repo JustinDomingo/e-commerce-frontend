@@ -36,8 +36,10 @@ export default function Checkout() {
         history.push("/")
       }
       let total = 0
+      console.log(res.data)
       res.data.forEach((item) => {
-        total += item.price
+        console.log(item.price)
+        //total += item.price
       })
       setSubtotal(total)
       setCart(res.data)

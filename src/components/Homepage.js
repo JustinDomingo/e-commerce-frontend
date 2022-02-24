@@ -54,9 +54,9 @@ export default function Homepage() {
 
   useEffect(() => {
     axios
-      .get("https://myecommerceapp-api.herokuapp.com/api/items")
+      .get("http://myecommerceapp-api.herokuapp.com/api/items")
       .then((res) => {
-        console.log(res.data)
+        console.log("Test")
         setItems(res.data)
       })
       .catch((err) => {
@@ -73,24 +73,20 @@ export default function Homepage() {
         <div className="title text-light display-5 m-4">Shirts</div>
         <div className="row">
           {firstShirt &&
-            firstShirt.map((shirt) => {
-              return (
-                <Link key={shirt._id} to={`/shirts/${shirt._id}`} className="col-3 no-dec display-1 m-3 item text-center">
-                  {shirt.iconCode === 1 ? <FontAwesomeIcon icon={faTshirt} className="text-white"></FontAwesomeIcon> : shirt.iconCode === 2 ? <FontAwesomeIcon icon={faTshirt} className="text-danger"></FontAwesomeIcon> : <div>Blue</div>}
-                </Link>
-              )
-            })}
+            firstShirt.map((shirt) => (
+              <Link key={shirt._id} to={`/shirts/${shirt._id}`} className="col-3 no-dec display-1 m-3 item text-center">
+                {shirt.iconCode === 1 ? <FontAwesomeIcon icon={faTshirt} className="text-white"></FontAwesomeIcon> : shirt.iconCode === 2 ? <FontAwesomeIcon icon={faTshirt} className="text-danger"></FontAwesomeIcon> : <div>Blue</div>}
+              </Link>
+            ))}
         </div>
         <div className="title text-white display-5 m-4">Pants</div>
         <div className="row">
           {firstPants &&
-            firstPants.map((pants) => {
-              return (
-                <Link key={pants._id} to={`/pants/${pants._id}`} className="col-3 no-dec display-1 m-3 item shadow text-center">
-                  {pants.iconCode === 3 ? <img alt="pants" className="h-75" src="https://img.icons8.com/external-photo3ideastudio-flat-photo3ideastudio/64/000000/external-pants-clothes-photo3ideastudio-flat-photo3ideastudio.png" /> : console.log()}
-                </Link>
-              )
-            })}
+            firstPants.map((pants) => (
+              <Link key={pants._id} to={`/pants/${pants._id}`} className="col-3 no-dec display-1 m-3 item shadow text-center">
+                {pants.iconCode === 3 ? <img alt="pants" className="h-75" src="https://img.icons8.com/external-photo3ideastudio-flat-photo3ideastudio/64/000000/external-pants-clothes-photo3ideastudio-flat-photo3ideastudio.png" /> : console.log()}
+              </Link>
+            ))}
         </div>
       </div>
     </>

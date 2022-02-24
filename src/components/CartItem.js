@@ -15,19 +15,22 @@ export default function CartItem({ item, userCart, setTotal }) {
   }, [item.name, userCart])
 
   const handleAdd = async () => {
-    console.log(userData)
-    let size = item.size
-    let res = await axios.post("https://myecommerceapp-api.herokuapp.com/api/add-quantity", { user: userData, item, size }, { withCredentials: true })
-    let cart = res.data
-    let total = 0
-    cart.forEach((item) => {
-      total += item.price
-    })
-    let sortedItems = cart.filter((_item) => {
-      return _item.name === item.name
-    })
-    setTotal(total)
-    setQuantity(sortedItems.length)
+    try {
+      let size = item.size
+      let res = await axios.post("https://myecommerceapp-api.herokuapp.com/api/add-quantity", { user: userData, item, size }, { withCredentials: true })
+      let cart = res.data
+      let total = 0
+      cart.forEach((item) => {
+        total += item.price
+      })
+      let sortedItems = cart.filter((_item) => {
+        return _item.name === item.name
+      })
+      setTotal(total)
+      setQuantity(sortedItems.length)
+    } catch (err) {
+      console.log(err)
+    }
   }
 
   const handleSubtract = async () => {
