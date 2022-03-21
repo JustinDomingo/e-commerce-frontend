@@ -81,7 +81,28 @@
 }
 
 .footer {
-  position: absolute;
+  position: relative;
   background-color: #222831;
-  top: 100%;
+  top: 50vh;
+}
+
+.textarea {
+  resize: none;
+  height: 15vh;
+}
+
+.bg-none {
+  background-color: #0d6dfd00;
+}
+
+.ellipsis {
+  color: #eeeeee;
+}
+
+.ellipsis:hover {
+  color: #999999;
+}
+
+.review {
+  position: absolute;
 }

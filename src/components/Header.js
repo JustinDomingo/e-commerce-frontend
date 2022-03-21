@@ -4,16 +4,19 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faShoppingCart } from "@fortawesome/free-solid-svg-icons"
 import { useContext } from "react"
 import { useHistory } from "react-router-dom"
-import LoginContext from "../LoginContext"
+import { LoginContext } from "../LoginContext"
 import axios from "axios"
 
 export default function Header() {
-  const { loggedIn, setLoggedIn, userData, setUserData } = useContext(LoginContext)
+  const { loggedIn, setLoggedIn, userData, setUserData, quantity, setQuantity } = useContext(LoginContext)
   const history = useHistory()
 
   const handleLogout = async () => {
     try {
       await axios.delete(`https://myecommerceapp-api.herokuapp.com/api/logout`, { withCredentials: true })
+      axios.get(`https://myecommerceapp-api.herokuapp.com/api/user/${userData._id}`).then((res) => {
+        setQuantity(res.data.cart.length)
+      })
     } catch (err) {
       console.log(err)
     }
@@ -44,7 +47,7 @@ export default function Header() {
             <div className="col h2 container">
               <div className="row text-end">
                 <Link to={`/cart/${userData && userData._id}`} className={`col light-font light-text`}>
-                  <FontAwesomeIcon icon={faShoppingCart}></FontAwesomeIcon>
+                  <FontAwesomeIcon icon={faShoppingCart}></FontAwesomeIcon> {quantity && quantity}
                 </Link>
                 {loggedIn ? (
                   <div onClick={handleLogout} className={`col light-font light-text`}>

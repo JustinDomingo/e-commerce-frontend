@@ -3,7 +3,7 @@ import { Link } from "react-router-dom"
 import axios from "axios"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faTshirt } from "@fortawesome/free-solid-svg-icons"
-import LoginContext from "../LoginContext"
+import { LoginContext } from "../LoginContext"
 
 export default function Homepage() {
   const [items, setItems] = useState({ shirts: [], pants: [] })

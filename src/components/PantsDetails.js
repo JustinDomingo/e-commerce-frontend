@@ -1,6 +1,7 @@
 import { useState, useEffect, useContext } from "react"
 import { useHistory } from "react-router-dom"
-import LoginContext from "../LoginContext"
+import { LoginContext } from "../LoginContext"
+import ReviewComponent from "./ReviewComponent"
 import axios from "axios"
 
 export default function PantsDetails() {
@@ -10,6 +11,7 @@ export default function PantsDetails() {
   const [showMessage, setShowMessage] = useState(false)
   const [message, setMessage] = useState()
   const [messageClass, setMessageClass] = useState()
+  const [single, setSingle] = useState()
   const history = useHistory()
   const { loggedIn, userData } = useContext(LoginContext)
 
@@ -18,6 +20,7 @@ export default function PantsDetails() {
       .get(`https://myecommerceapp-api.herokuapp.com/api/pants`, { withCredentials: true })
       .then((res) => {
         console.log(res.data)
+        setSingle(res.data[0])
         setData(res.data)
       })
       .catch((err) => {
@@ -121,6 +124,8 @@ export default function PantsDetails() {
 
             <p className="text-end display-6">How about some nice blue jeans with those simple t-shirts?</p>
           </div>
+          <hr className="light-text"></hr>
+          {single && <ReviewComponent code={single.iconCode} />}
         </div>
       </div>
     </div>

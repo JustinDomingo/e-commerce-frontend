@@ -1,5 +1,5 @@
 import { useState, useEffect, useContext, useRef } from "react"
-import LoginContext from "../LoginContext"
+import { LoginContext } from "../LoginContext"
 import axios from "axios"
 import { useHistory } from "react-router-dom"
 
@@ -38,8 +38,7 @@ export default function Checkout() {
       let total = 0
       console.log(res.data)
       res.data.forEach((item) => {
-        console.log(item.price)
-        //total += item.price
+        total += item.price
       })
       setSubtotal(total)
       setCart(res.data)

@@ -5,7 +5,8 @@ import { useHistory } from "react-router-dom"
 import axios from "axios"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faTshirt } from "@fortawesome/free-solid-svg-icons"
-import LoginContext from "../LoginContext"
+import { LoginContext } from "../LoginContext"
+import ReviewComponent from "./ReviewComponent"
 
 export default function ItemDetails() {
   const [data, setData] = useState("")
@@ -16,14 +17,14 @@ export default function ItemDetails() {
   const [flash, setFlash] = useState(null)
   const [red, setRed] = useState([]) //array of only red shirts
   const [white, setWhite] = useState([]) //array of only white shirts
-  const [name, setName] = useState("")
+  const [name, setName] = useState(null)
   const [color, setColor] = useState("")
   const [sizeSelected, setSizeSelected] = useState(false)
   const [size, setSize] = useState()
   const firstRender = useRef(true)
   const _firstRender = useRef(true)
   const { id } = useParams() //Params get saved as object properties
-  const { loggedIn } = useContext(LoginContext)
+  const { loggedIn, setQuantity } = useContext(LoginContext)
   const history = useHistory()
 
   useEffect(() => {
@@ -50,6 +51,12 @@ export default function ItemDetails() {
   }, [])
 
   useEffect(() => {
+    axios.get(`https://myecommerceapp-api.herokuapp.com/api/shirts/${id}`).then((res) => {
+      setName(res.data)
+    })
+  }, [])
+
+  useEffect(() => {
     //function is to get the color
     if (firstRender.current) {
       firstRender.current = false
@@ -58,7 +65,6 @@ export default function ItemDetails() {
     axios
       .get(`https://myecommerceapp-api.herokuapp.com/api/shirts/${id}`) //gets single shirt
       .then((res) => {
-        setName(res.data.name)
         if (res.data.iconCode === 1) {
           setColor("white")
         }
@@ -80,6 +86,10 @@ export default function ItemDetails() {
       })
   }, [data, id, red, white]) //listens for change in "data" state
 
+  // useEffect(() => {
+  //   console.log(name)
+  // }, [name])
+
   useEffect(() => {
     if (_firstRender.current) {
       _firstRender.current = false
@@ -90,6 +100,7 @@ export default function ItemDetails() {
   }, [stock])
 
   const handleClick = () => {
+    console.log(name)
     if (!loggedIn) {
       history.push("/register") //redirects if user isn't logged in
       return
@@ -111,6 +122,7 @@ export default function ItemDetails() {
       axios
         .post("https://myecommerceapp-api.herokuapp.com/api/add-item", { data: obj, user: userData })
         .then((res) => {
+          setQuantity(res.data.length)
           setMessage("Item successfully added")
           setFlash("success")
         })
@@ -129,7 +141,7 @@ export default function ItemDetails() {
       setStock(res.data)
       setSize(size)
     } catch (err) {
-      console.log(err)
+      console.log(err.response.data)
     }
   }
 
@@ -139,18 +151,18 @@ export default function ItemDetails() {
         <div className="row text-center">
           <FontAwesomeIcon icon={faTshirt} className={`${color && color} icon col light py-3 shadow`}></FontAwesomeIcon>
           <div className="display-4 light-text col">
-            {name && name}
+            {name && name.name}
             <div className="container row light-text">
-              <button className="display-6 col border dark-2 text-white rounded mx-1" onClick={() => handleSize("small", color)}>
+              <button className="display-6 col border dark-2 light-text rounded mx-1" onClick={() => handleSize("small", color)}>
                 S
               </button>
-              <button className="display-6 col border dark-2 text-white rounded mx-1" onClick={() => handleSize("medium", color)}>
+              <button className="display-6 col border dark-2 light-text rounded mx-1" onClick={() => handleSize("medium", color)}>
                 M
               </button>
-              <button className="display-6 col border dark-2 text-white rounded mx-1" onClick={() => handleSize("large", color)}>
+              <button className="display-6 col border dark-2 light-text rounded mx-1" onClick={() => handleSize("large", color)}>
                 L
               </button>
-              <button className="display-6 col border dark-2 text-white rounded mx-1" onClick={() => handleSize("xl", color)}>
+              <button className="display-6 col border dark-2 light-text rounded mx-1" onClick={() => handleSize("xl", color)}>
                 XL
               </button>
             </div>
@@ -170,9 +182,11 @@ export default function ItemDetails() {
               </div>
             )}
             <hr></hr>
-            <div className="display-5 text-end">About</div>
-            <p className="text-end display-6">A simple, good-quality t-shirt. How much simpler can it get?</p>
+            <div className="display-5 text-center">About</div>
+            <p className="text-start display-6">A simple, good-quality t-shirt. How much simpler can it get?</p>
           </div>
+          <hr className="light-text"></hr>
+          {name && <ReviewComponent code={name.iconCode} />}
         </div>
       </div>
     </div>

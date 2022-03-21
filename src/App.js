@@ -1,8 +1,7 @@
 import "./App.css"
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom"
-import { useState } from "react"
 import Checkout from "./components/Checkout"
-import LoginContext from "./LoginContext"
+import { LoginProvider } from "./LoginContext"
 import Header from "./components/Header"
 import Homepage from "./components/Homepage"
 import Register from "./components/Register"
@@ -16,13 +15,9 @@ import ThankYou from "./components/ThankYou"
 import Footer from "./components/Footer"
 
 function App() {
-  const [loggedIn, setLoggedIn] = useState(Boolean(localStorage.getItem("user")))
-  const [complete, setComplete] = useState(false)
-  const [userData, setUserData] = useState(JSON.parse(localStorage.getItem("user")))
-
   return (
     <div>
-      <LoginContext.Provider value={{ loggedIn, setLoggedIn, userData, setUserData, complete, setComplete }}>
+      <LoginProvider>
         <Router>
           <Header />
           <Switch>
@@ -59,7 +54,7 @@ function App() {
           </Switch>
           <Footer />
         </Router>
-      </LoginContext.Provider>
+      </LoginProvider>
     </div>
   )
 }

@@ -1,6 +1,6 @@
 import { useContext } from "react"
 import { useHistory } from "react-router-dom"
-import LoginContext from "../LoginContext"
+import { LoginContext } from "../LoginContext"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faCheck } from "@fortawesome/free-solid-svg-icons"
 

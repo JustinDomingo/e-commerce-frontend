@@ -1,6 +1,6 @@
 import { useState, useContext, useEffect } from "react"
 import { useHistory, Link } from "react-router-dom"
-import LoginContext from "../LoginContext"
+import { LoginContext } from "../LoginContext"
 import axios from "axios"
 
 export default function Register() {
@@ -10,7 +10,7 @@ export default function Register() {
   const [passwordErrors, setPasswordErrors] = useState(null)
   const [emailErrors, setEmailErrors] = useState(null)
   const [usernameErrors, setUsernameErrors] = useState(null)
-  const { loggedIn, setLoggedIn, setUserData } = useContext(LoginContext)
+  const { loggedIn, setLoggedIn, setUserData, setQuantity } = useContext(LoginContext)
   const history = useHistory()
 
   useEffect(() => {
@@ -28,11 +28,17 @@ export default function Register() {
     }
     axios
       .post("https://myecommerceapp-api.herokuapp.com/api/register", data, { withCredentials: true }) //always set "withCredentials to true when handling cookies"
-      .then((res) => {
-        console.log(res.data)
-        localStorage.setItem("user", JSON.stringify(res.data)) //sets user document in localStorage NOT the jwt
-        setUserData(res.data)
-        setLoggedIn(true)
+      .then((response) => {
+        axios.get(`https://myecommerceapp-api.herokuapp.com/api/user/${response.data._id}`).then((res) => {
+          if (res.data.cart.length) {
+            setQuantity(res.data.cart.length)
+          } else {
+            setQuantity()
+          }
+          localStorage.setItem("user", JSON.stringify(response.data)) //sets user document in localStorage NOT the jwt
+          setUserData(response.data)
+          setLoggedIn(true)
+        })
       })
       .catch((item) => {
         let err = JSON.parse(item.request.response)
