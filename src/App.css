@@ -12,6 +12,10 @@
   background-color: #393e46;
 }
 
+.dark-3 {
+  background-color: #3d4450;
+}
+
 .light-text {
   color: #eeeeee;
   text-decoration: none;
@@ -105,4 +109,8 @@
 
 .review {
   position: absolute;
+}
+
+.other {
+  position: relative;
 }

@@ -54,7 +54,7 @@ export default function Homepage() {
 
   useEffect(() => {
     axios
-      .get("http://myecommerceapp-api.herokuapp.com/api/items")
+      .get("https://myecommerceapp-api.herokuapp.com/api/items")
       .then((res) => {
         console.log("Test")
         setItems(res.data)
@@ -74,7 +74,7 @@ export default function Homepage() {
         <div className="row">
           {firstShirt &&
             firstShirt.map((shirt) => (
-              <Link key={shirt._id} to={`/shirts/${shirt._id}`} className="col-3 no-dec display-1 m-3 item text-center">
+              <Link key={shirt._id} to={`/shirts/${shirt._id}`} className="col-3 rounded no-dec display-1 m-3 item text-center">
                 {shirt.iconCode === 1 ? <FontAwesomeIcon icon={faTshirt} className="text-white"></FontAwesomeIcon> : shirt.iconCode === 2 ? <FontAwesomeIcon icon={faTshirt} className="text-danger"></FontAwesomeIcon> : <div>Blue</div>}
               </Link>
             ))}
@@ -83,7 +83,7 @@ export default function Homepage() {
         <div className="row">
           {firstPants &&
             firstPants.map((pants) => (
-              <Link key={pants._id} to={`/pants/${pants._id}`} className="col-3 no-dec display-1 m-3 item shadow text-center">
+              <Link key={pants._id} to={`/pants/${pants._id}`} className="col-3 no-dec display-1 m-3 item rounded shadow text-center">
                 {pants.iconCode === 3 ? <img alt="pants" className="h-75" src="https://img.icons8.com/external-photo3ideastudio-flat-photo3ideastudio/64/000000/external-pants-clothes-photo3ideastudio-flat-photo3ideastudio.png" /> : console.log()}
               </Link>
             ))}

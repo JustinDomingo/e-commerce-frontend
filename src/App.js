@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom"
 import Checkout from "./components/Checkout"
 import { LoginProvider } from "./LoginContext"
 import Header from "./components/Header"
+import HeaderTwo from "./components/HeaderTwo"
 import Homepage from "./components/Homepage"
 import Register from "./components/Register"
 import ShirtDetails from "./components/ShirtDetails"
@@ -20,6 +21,7 @@ function App() {
       <LoginProvider>
         <Router>
           <Header />
+          <HeaderTwo />
           <Switch>
             <Route exact path="/">
               <Homepage />
